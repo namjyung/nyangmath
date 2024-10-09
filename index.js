@@ -8,8 +8,9 @@ const PORT = process.env.PORT || 3000;
 
 // MySQL 연결 설정
 const connection = mysql.createConnection({
-    host: '192.168.221.3',
+    host: 'svc.sel4.cloudtype.app',
     user: 'nyangmath_user',
+    port: 32460,
     password: '12345',
     database: 'nyangmath'
 });
