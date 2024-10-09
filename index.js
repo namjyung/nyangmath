@@ -11,11 +11,13 @@ require('dotenv').config();
 
 // MySQL 연결 설정
 const connection = mysql.createConnection({
+
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     port: process.env.DB_PORT,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
+
 });
 // 정적 파일을 제공하는 경로 설정
 app.use(express.static('public'));
