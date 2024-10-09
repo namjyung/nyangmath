@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const connection = mysql.createConnection({
     host: 'svc.sel4.cloudtype.app',
     user: 'nyangmath_user',
-    port: 32460,
+    port: 31896,
     password: '12345',
     database: 'nyangmath'
 });
