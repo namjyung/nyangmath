@@ -6,15 +6,17 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+require('dotenv').config();
+
 // MySQL 연결 설정
 const connection = mysql.createConnection({
-    host: 'svc.sel4.cloudtype.app',
-    user: 'nyangmath_user',
-    port: 32460,
-    password: '12345',
-    database: 'nyangmath'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
-
 // 정적 파일을 제공하는 경로 설정
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
