@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+    <h2>로그인 페이지</h2>
+    <form id="login-form">
+        <label for="username">아이디:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="button" onclick="login()">로그인</button>
+    </form>
+
+    <script>
+        
+	async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    console.log('로그인 요청 보내는 중...'); // 로그 추가
+
+    // 서버에 POST 요청
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+    });
+
+    console.log('응답 상태:', response.status); // 응답 상태 로그
+    console.log('응답 여부:', response.ok); // 응답 여부 로그
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log('로그인 성공 데이터:', data); // 성공 데이터 로그
+        if (data.success) {
+            alert(`반갑습니다! ${data.username}님!`);
+            window.location.href = '/'; // 메인 페이지로 리다이렉트
+        } else {
+            alert('로그인에 실패했습니다.');
+        }
+    } else {
+        // 로그인 실패 시 서버에서 보내온 메시지 표시
+        const errorData = await response.json();
+        console.log('에러 데이터:', errorData); // 에러 데이터 로그
+        alert(errorData.message);
+    }
+}
+    </script>
+</body>
+</html>
+

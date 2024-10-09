@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>냥수학</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1 class="logo-text">냥수학</h1>
+        <h2 class="main-title">수학은 무조건 1등급</h2>
+        <div class="chalk-line"></div>
+    </header>
+
+    <div class="content">
+        <div class="left-section">
+            <h3>[공지]</h3>
+            <p>공지글</p>
+            <h3>[10월9일] 데일리수학퀴즈</h3>
+	        <div class="quiz-box">
+		        <a href="/problem1.html" class="quiz-button">수1</a>
+		        <a href="/problem2.html" class="quiz-button">수2</a>
+   		        <a href="/problem3.html" class="quiz-button">미적분</a>
+   		        <a href="/problem4.html" class="quiz-button">확통</a>
+    	        <a href="/problem5.html" class="quiz-button">수상</a>
+   		        <a href="/problem6.html" class="quiz-button">수하</a>
+	       </div>
+        </div>
+       
+<div class="right-section">
+    <form id="login-form">
+        <label for="username">아이디:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Login</button>
+        <a href="/signup.html" class="signup-button">Sign up</a>
+    </form>
+</div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // 폼이 제출될 때 새로고침 방지
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('로그인 성공 데이터:', data); // 성공 데이터 로그
+                if (data.success) {
+                    document.querySelector('.right-section').innerHTML = `<p>반갑습니다! ${data.username}님!</p>`;
+                }
+            } else {
+                const errorData = await response.json();
+                console.error('로그인 실패:', errorData.message); // 오류 로그 추가
+                alert(errorData.message);
+            }
+        } catch (error) {
+            console.error('요청 중 오류 발생:', error);
+            alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        }
+    });
+</script> 
+        
+    </div>
+
+    <div class="mission-box">
+        <div class="mission">
+            <h4>데일리수학문제집</h4>
+            <ul>
+                <li>김수학</li>
+                <li>박수학</li>
+            </ul>
+        </div>
+        <div class="mission">
+            <h4>데일리수학퀴즈</h4>
+            <ul>
+                <li>김수학</li>
+                <li>박수학</li>
+                <li>남수학</li>
+                <li>이수학</li>
+                <li>정수학</li>
+            </ul>
+        </div>
+        <div class="mission">
+            <h4>데일리수학리뷰</h4>
+            <ul>
+                <li>김수학</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

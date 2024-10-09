@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+    <h2>회원가입 페이지</h2>
+    <form action="/submit-signup" method="POST">
+        <label for="newUsername">아이디:</label>
+        <input type="text" id="newUsername" name="newUsername" required><br><br>
+        <label for="newPassword">비밀번호:</label>
+        <input type="password" id="newPassword" name="newPassword" required><br><br>
+        <label for="confirmPassword">비밀번호 확인:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+        <button type="submit">회원가입</button>
+    </form>
+
+    <script>
+        async function submitSignup() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // 서버에 POST 요청
+            try {
+                const response = await fetch('/submit-signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ newUsername, newPassword, confirmPassword })
+                });
+
+                // 응답 확인
+                const data = await response.json();
+                if (response.ok) {
+                    alert('회원가입 완료!');
+                    window.location.href = '/login.html'; // 회원가입 후 로그인 페이지로 리다이렉트
+                } else {
+                    alert(data.message); // 서버에서 보내온 에러 메시지 표시
+                }
+            } catch (error) {
+                console.error('회원가입 요청 중 오류 발생:', error);
+                alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        }
+    </script>
+</body>
+</html>
+
