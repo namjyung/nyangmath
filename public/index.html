@@ -39,7 +39,7 @@
     </form>
 </div>
 
-<script>
+        <script>
     document.getElementById('login-form').addEventListener('submit', async function(event) {
         event.preventDefault(); // 폼이 제출될 때 새로고침 방지
 
@@ -59,7 +59,29 @@
                 const data = await response.json();
                 console.log('로그인 성공 데이터:', data); // 성공 데이터 로그
                 if (data.success) {
-                    document.querySelector('.right-section').innerHTML = `<p>반갑습니다! ${data.username}님!</p>`;
+                    document.querySelector('.right-section').innerHTML = `
+                        <p>반갑습니다! ${data.username}님!</p>
+                        <button id="logout-button">로그아웃</button>
+                    `;
+
+                    // 로그아웃 버튼에 이벤트 리스너 추가
+                    document.getElementById('logout-button').addEventListener('click', async function() {
+                        try {
+                            const logoutResponse = await fetch('/logout', {
+                                method: 'GET'
+                            });
+
+                            if (logoutResponse.ok) {
+                                alert('로그아웃 되었습니다!');
+                                window.location.href = '/'; // 메인 페이지로 리다이렉트
+                            } else {
+                                alert('로그아웃에 실패했습니다.');
+                            }
+                        } catch (error) {
+                            console.error('로그아웃 요청 중 오류 발생:', error);
+                            alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                        }
+                    });
                 }
             } else {
                 const errorData = await response.json();
@@ -71,8 +93,7 @@
             alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
-</script> 
-        
+</script>
     </div>
 
     <div class="mission-box">
