@@ -27,6 +27,10 @@ app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: true,
+	cookie: {
+        secure: false, // HTTPS 사용 시 true로 설정
+        maxAge: 1000 * 60 * 60 * 24 // 세션 유지 시간 (예: 24시간)
+    }
 }));
 
 // 회원가입 요청 처리
@@ -91,6 +95,16 @@ app.get('/logout', (req, res) => {
         res.redirect('/');
     });
 });
+
+// 로그인 상태 확인 API
+app.get('/check-login', (req, res) => {
+    if (req.session.username) {
+        res.json({ loggedIn: true, username: req.session.username });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);

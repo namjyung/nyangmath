@@ -8,7 +8,9 @@
 </head>
 <body>
     <header class="main-header">
+	    <a href="/" style="text-decoration: none; color: inherit;">
         <h1 class="logo-text">냥수학</h1>
+	</a>
         <h2 class="main-title">수학은 무조건 1등급</h2>
         <div class="chalk-line"></div>
     </header>
@@ -39,8 +41,8 @@
     </form>
 </div>
 
-        <script>
-    document.getElementById('login-form').addEventListener('submit', async function(event) {
+    <script>
+    	document.getElementById('login-form').addEventListener('submit', async function(event) {
         event.preventDefault(); // 폼이 제출될 때 새로고침 방지
 
         const username = document.getElementById('username').value;
@@ -93,6 +95,41 @@
             alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
+	    async function checkLoginStatus() {
+            try {
+                const response = await fetch('/check-login');
+                const data = await response.json();
+
+                if (data.loggedIn) {
+                    document.querySelector('.right-section').innerHTML = `
+                        <p>반갑습니다! ${data.username}님!</p>
+                        <button id="logout-button">로그아웃</button>
+                    `;
+
+                    // 로그아웃 버튼에 이벤트 리스너 추가
+                    document.getElementById('logout-button').addEventListener('click', async function() {
+                        try {
+                            const logoutResponse = await fetch('/logout', {
+                                method: 'GET'
+                            });
+
+                            if (logoutResponse.ok) {
+                                alert('로그아웃 되었습니다!');
+                                window.location.href = '/';
+                            } else {
+                                alert('로그아웃에 실패했습니다.');
+                            }
+                        } catch (error) {
+                            console.error('로그아웃 요청 중 오류 발생:', error);
+                            alert('서버와 통신하는 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('로그인 상태 확인 중 오류 발생:', error);
+            }
+        }
+
 </script>
     </div>
 
